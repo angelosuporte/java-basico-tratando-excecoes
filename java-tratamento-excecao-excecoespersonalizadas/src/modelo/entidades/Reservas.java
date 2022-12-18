@@ -38,9 +38,17 @@ public class Reservas {
 		return TimeUnit.DAYS.convert(dif, TimeUnit.MILLISECONDS); //TimeUnit e tipo enum do java - aqui vai converter de millisegundos para dias
 	}
 	
-	public void updateDatas(Date checkIn, Date checkOut) {
+	public String updateDatas(Date checkIn, Date checkOut) {
+		Date agora = new Date(); //Vai pegar o instante atual
+		if(checkIn.before(agora) || checkOut.before(agora)) {
+			return "A atualizacao da reserva deve ser com data futura";
+		}
+		if(!checkOut.after(checkIn)) {
+			return "A data do checkOut deve ser depois da data o checkIn";
+		}
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		return null; //Vai retornar nulo caso não ocorra erro
 	}
 	
 	public String toString() {
