@@ -1,5 +1,7 @@
 package modelo.entidades;
 
+import modelo.excecoes.ExcecaoDeDominio;
+
 public class Conta {
 
 	private Integer numeroConta;
@@ -46,17 +48,19 @@ public class Conta {
 		saldoConta += quantiaDeposito;
 	}
 
-	public void saque(Double quantiaSaque) {
+	public void saque(Double quantiaSaque) throws ExcecaoDeDominio {
+		if(saldoConta < quantiaSaque) {
+			throw new ExcecaoDeDominio("Saldo da conta insuficiente");
+		}
+		if(quantiaSaque > limiteSaque) {
+			throw new ExcecaoDeDominio("A quantia excede o limite de saque");
+		}
 		saldoConta -= quantiaSaque;
 	}
 
 	public String toString() {
-		return " Numero: " 
-	            + numeroConta 
-	            + " Titular: " 
-	            + titularConta 
-	            + " Saldo conta: " 
-	            + saldoConta;
+		return "Novo saldo: " 
+	            + String.format("%.2f", saldoConta);
 
 	}
 }
